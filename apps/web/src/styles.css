@@ -177,6 +177,63 @@ h3 {
   color: #735007;
 }
 
+.report-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid #cdd8d0;
+  border-radius: 8px;
+  color: #16302b;
+  background: #fbfcfa;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.icon-button:hover {
+  border-color: #176b5c;
+  background: #eef6f2;
+}
+
+.report-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 18px;
+}
+
+.report-summary div {
+  padding: 12px;
+  border: 1px solid #dce4dc;
+  border-radius: 8px;
+  background: #fbfcfa;
+}
+
+.report-summary dt {
+  margin-bottom: 4px;
+  color: #5d706b;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.report-summary dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: #14221f;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
 .button-row {
   display: flex;
   gap: 12px;
@@ -248,6 +305,7 @@ h3 {
 }
 
 .transcript,
+.classification-panel,
 .recommendations {
   padding: 16px 0;
   border-top: 1px solid #e2e8e2;
@@ -256,6 +314,39 @@ h3 {
 .transcript p {
   margin-bottom: 6px;
   line-height: 1.6;
+}
+
+.classification-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.classification-card {
+  display: grid;
+  gap: 5px;
+  padding: 14px;
+  border: 1px solid #dce4dc;
+  border-radius: 8px;
+  background: #fbfcfa;
+}
+
+.classification-card span {
+  color: #465a54;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.classification-card strong {
+  color: #14221f;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.classification-card small {
+  color: #5d706b;
+  line-height: 1.4;
 }
 
 .finding-table {
@@ -299,21 +390,97 @@ h3 {
   }
 
   .workspace,
-  .metric-grid {
+  .metric-grid,
+  .classification-grid {
     grid-template-columns: 1fr;
   }
 
   .report-header,
-  .button-row {
+  .button-row,
+  .report-actions {
     flex-direction: column;
+    align-items: stretch;
   }
 
   .primary-button,
-  .secondary-button {
+  .secondary-button,
+  .icon-button {
     width: 100%;
+  }
+
+  .report-summary {
+    grid-template-columns: 1fr;
   }
 
   .table-row {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media print {
+  @page {
+    margin: 16mm;
+  }
+
+  :root,
+  body {
+    color: #111111;
+    background: #ffffff;
+  }
+
+  .app-shell {
+    min-height: auto;
+    padding: 0;
+    background: #ffffff;
+  }
+
+  .workspace {
+    display: block;
+    max-width: none;
+    margin: 0;
+  }
+
+  .capture-pane,
+  .no-print {
+    display: none !important;
+  }
+
+  .report-pane {
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .report-header {
+    border-bottom: 2px solid #111111;
+    padding-bottom: 12px;
+  }
+
+  .report-actions {
+    display: block;
+  }
+
+  .status-pill {
+    display: inline-block;
+    border: 1px solid #111111;
+    color: #111111;
+    background: #ffffff;
+  }
+
+  .classification-card,
+  .metric,
+  .report-summary div,
+  .finding-table {
+    break-inside: avoid;
+  }
+
+  .classification-card,
+  .metric {
+    border: 1px solid #d0d0d0;
+    background: #ffffff;
+  }
+
+  .table-head {
+    background: #f0f0f0;
   }
 }
