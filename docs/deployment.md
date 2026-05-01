@@ -1,41 +1,34 @@
 # Deployment And Security Notes
 
-This package is designed for Cloudflare Pages plus a TypeScript Worker API.
+This project is currently configured for a free prototype deployment on Cloudflare Workers.
 
-## Provisioning
+## Free Prototype Mode
 
-1. Create R2 buckets:
-   - `cleft-speech-audio-prod`
-   - `cleft-speech-audio-dev`
-2. Create KV namespaces:
-   - `cleft-speech-session-prod`
-   - `cleft-speech-session-dev`
-   - `cleft-speech-report-prod`
-   - `cleft-speech-report-dev`
-3. Replace the placeholder namespace IDs in `wrangler.toml`.
-4. Configure secrets:
-   - `wrangler secret put STT_API_KEY`
-   - `wrangler secret put LLM_API_KEY`
-5. Deploy the Worker:
-   - `npm run worker:deploy`
-6. Build and deploy Pages:
-   - `npm run build`
-   - `wrangler pages deploy apps/web/dist`
+The app does not require:
 
-## Cloudflare Access
+- R2 buckets
+- KV namespaces
+- STT API keys
+- LLM API keys
+- Cloudflare Access
 
-Create Access applications for both the Pages hostname and `/api/*` Worker route.
+When a recording is submitted, the Worker returns a structured prototype report. Audio is accepted only long enough to create the response. It is not stored, transcribed, or sent to an external AI service.
 
-Recommended policies:
+## Deploy
 
-- Allow only hospital IdP groups for treating clinicians, SLP supervisors, and approved admins.
-- Require MFA.
-- Restrict by device posture for managed hospital laptops where possible.
-- Pass identity headers to the Worker so `Cf-Access-Authenticated-User-Email` is available.
-- Disable public R2 access. Audio objects should be reachable only through audited Worker routes.
+1. Push the latest code to GitHub.
+2. In Cloudflare, retry the Worker deployment.
+3. The previous R2 error should be gone because `wrangler.toml` no longer asks Cloudflare for R2.
 
-## HIPAA Alignment
+## Clinical Safety
 
-This code is an implementation starting point, not a compliance certification. Before production use, confirm BAAs and data handling terms for Cloudflare and any STT/LLM vendor, configure retention policies, and complete threat modeling with the hospital security team.
+Prototype mode is for workflow demonstration only. It is not a diagnosis and does not provide automated clinical analysis. A licensed clinician must complete and review all findings before care planning.
 
-The Worker avoids logging PHI, stores audio under hashed patient IDs, keeps report JSON in KV, and requires Cloudflare Access identity headers.
+## Future Paid Upgrade Path
+
+If funding becomes available later, the project can be upgraded to add:
+
+- R2 storage for private audio retention
+- KV or D1 for report history
+- Cloudflare Access for staff-only login
+- Speech-to-text and LLM services for automated draft findings
