@@ -1,0 +1,41 @@
+name = "vaanitrace-api"
+main = "apps/api/src/index.ts"
+compatibility_date = "2026-05-01"
+workers_dev = false
+
+[vars]
+STT_API_URL = "https://stt-vendor.example.com/v1/transcribe"
+STT_MODEL = "telugu-verbatim-clinical"
+LLM_API_URL = "https://llm-vendor.example.com/v1/chat/completions"
+LLM_MODEL = "clinical-speech-diagnostics"
+ALLOWED_ORIGIN = "https://cleft-speech.example.org"
+
+[[r2_buckets]]
+binding = "AUDIO_BUCKET"
+bucket_name = "cleft-speech-audio-prod"
+preview_bucket_name = "cleft-speech-audio-dev"
+
+[[kv_namespaces]]
+binding = "SESSION_KV"
+id = "replace-with-prod-session-kv-id"
+preview_id = "replace-with-dev-session-kv-id"
+
+[[kv_namespaces]]
+binding = "REPORT_KV"
+id = "replace-with-prod-report-kv-id"
+preview_id = "replace-with-dev-report-kv-id"
+
+# Required secrets:
+# wrangler secret put STT_API_KEY
+# wrangler secret put LLM_API_KEY
+#
+# Cloudflare Access / Zero Trust outline:
+# 1. Put this Worker and the Pages hostname behind Cloudflare Access.
+# 2. Create an Access application for https://cleft-speech.example.org and /api/*.
+# 3. Add allow policies for hospital IdP groups, for example:
+#    - Google Workspace / Okta group: cleft-palate-clinicians
+#    - Require MFA
+#    - Optional device posture check for managed devices
+# 4. In Access app settings, pass identity headers to origin.
+# 5. Keep R2 public access disabled. Audio is fetched only through audited Worker routes.
+# 6. Configure logs with PHI minimization: never log raw transcripts, filenames, or patient IDs.

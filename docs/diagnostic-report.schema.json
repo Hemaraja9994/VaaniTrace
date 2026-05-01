@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CleftPalateSpeechDiagnosticReport",
+  "type": "object",
+  "required": [
+    "report_id",
+    "patient_id_hash",
+    "clinician_id",
+    "created_at",
+    "audio_object_key",
+    "transcript_telugu",
+    "transcript_latin",
+    "global_impressions",
+    "segment_findings",
+    "therapy_recommendations",
+    "review_required",
+    "limitations"
+  ],
+  "properties": {
+    "report_id": { "type": "string" },
+    "patient_id_hash": { "type": "string" },
+    "clinician_id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "audio_object_key": { "type": "string" },
+    "transcript_telugu": { "type": "string" },
+    "transcript_latin": { "type": "string" },
+    "utterance_targets": { "type": "array", "items": { "type": "string" } },
+    "global_impressions": {
+      "type": "object",
+      "required": [
+        "resonance",
+        "pressure_consonant_integrity",
+        "suspected_vpi_markers",
+        "intelligibility_estimate"
+      ],
+      "properties": {
+        "resonance": {
+          "enum": ["balanced", "hypernasal", "hyponasal", "mixed", "uncertain"]
+        },
+        "pressure_consonant_integrity": {
+          "enum": ["adequate", "reduced", "severely_reduced", "uncertain"]
+        },
+        "suspected_vpi_markers": { "type": "array", "items": { "type": "string" } },
+        "intelligibility_estimate": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "segment_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "target_phoneme",
+          "produced_phoneme",
+          "error_type",
+          "severity",
+          "nasality_score",
+          "confidence",
+          "acoustic_markers",
+          "clinical_notes",
+          "therapy_recommendations"
+        ],
+        "properties": {
+          "target_phoneme": { "type": "string" },
+          "produced_phoneme": { "type": "string" },
+          "telugu_grapheme": { "type": "string" },
+          "word_context": { "type": "string" },
+          "error_type": {
+            "enum": [
+              "typical",
+              "glottal_substitution",
+              "pharyngeal_fricative",
+              "posterior_nasal_fricative",
+              "nasal_emission",
+              "weak_pressure_consonant",
+              "backing",
+              "fronting",
+              "omission",
+              "distortion",
+              "uncertain"
+            ]
+          },
+          "severity": { "enum": ["none", "mild", "moderate", "severe"] },
+          "nasality_score": { "type": "number", "minimum": 0, "maximum": 1 },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "acoustic_markers": { "type": "array", "items": { "type": "string" } },
+          "clinical_notes": { "type": "string" },
+          "therapy_recommendations": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "therapy_recommendations": { "type": "array", "items": { "type": "string" } },
+    "review_required": { "type": "boolean" },
+    "limitations": { "type": "array", "items": { "type": "string" } }
+  }
+}
