@@ -1,4 +1,4 @@
-name = "vaanitrace-api"
+name = "vaanitrace"
 main = "apps/api/src/index.ts"
 compatibility_date = "2026-05-01"
 workers_dev = false
