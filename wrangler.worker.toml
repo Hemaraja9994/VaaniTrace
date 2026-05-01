@@ -1,0 +1,13 @@
+name = "vaanitrace"
+main = "apps/api/src/index.ts"
+compatibility_date = "2026-05-01"
+workers_dev = false
+
+[vars]
+ALLOWED_ORIGIN = "*"
+
+# Free prototype mode:
+# - No R2 bucket is required.
+# - No KV namespace is required.
+# - No paid STT/LLM API keys are required.
+# - Audio is accepted for workflow testing, but it is not stored or transcribed.

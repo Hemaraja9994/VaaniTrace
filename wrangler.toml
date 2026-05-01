@@ -1,24 +1,6 @@
-name = "vaanitrace"
-main = "apps/api/src/index.ts"
+name = "vaanitrace-clinic"
+pages_build_output_dir = "apps/web/dist"
 compatibility_date = "2026-05-01"
-workers_dev = false
 
 [vars]
 ALLOWED_ORIGIN = "*"
-
-# Free prototype mode:
-# - No R2 bucket is required.
-# - No KV namespace is required.
-# - No paid STT/LLM API keys are required.
-# - Audio is accepted for workflow testing, but it is not stored or transcribed.
-#
-# Cloudflare Access / Zero Trust outline:
-# 1. Put this Worker and the Pages hostname behind Cloudflare Access.
-# 2. Create an Access application for https://cleft-speech.example.org and /api/*.
-# 3. Add allow policies for hospital IdP groups, for example:
-#    - Google Workspace / Okta group: cleft-palate-clinicians
-#    - Require MFA
-#    - Optional device posture check for managed devices
-# 4. In Access app settings, pass identity headers to origin.
-# 5. Keep R2 public access disabled. Audio is fetched only through audited Worker routes.
-# 6. Configure logs with PHI minimization: never log raw transcripts, filenames, or patient IDs.
